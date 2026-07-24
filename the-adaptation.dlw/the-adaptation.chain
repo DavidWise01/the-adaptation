@@ -1,0 +1,9 @@
+ROOT0-DLW-CHAIN-v1
+index : 1547
+slug  : the-adaptation
+seal  : 16729c106b442a34ac46a1793242dff6e9c8c5e98e589a9a77b957818417de11
+prev  : 0a22d92e5f807ea0749b309795c3d6a4be501097278f0733170818a07dfa5d58
+link  : 99efc8b5f17a92229cef22a356cedf898f4d2aee3101642d136a6d780e26538c
+head  : 99efc8b5f17a92229cef22a356cedf898f4d2aee3101642d136a6d780e26538c
+
+— the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.
