@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="David Lee Wise / ROOT0 / TriPod LLC">
+<title>THE ADAPTATION · AÍSTHĒSIS · UD0</title>
+<style>
+*{box-sizing:border-box}
+:root{--sense:#ff7a6a;--sense2:#e25640;--neuro:#12b3c8;--neuro2:#0c8595;--synapse:#7b6cf0;--synapse2:#5a4bd0;
+  --ink:#1c2530;--dim:#5f6b7a;--grn:#1fae74;--panel:rgba(255,255,255,.66);--edge:rgba(18,179,200,.28);--edge2:rgba(18,179,200,.13)}
+html,body{margin:0;height:100%}
+body{background:#eaeff5;color:var(--ink);font:15px/1.55 'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+#bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block}
+.desk{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:24px 16px 56px}
+.dtag{font:600 11px/1 ui-monospace,'Cascadia Code','Segoe UI Mono',monospace;letter-spacing:.32em;text-transform:uppercase;color:var(--neuro2)}
+.dtag b{color:var(--sense)}
+h1{margin:.35em 0 .1em;font-size:clamp(26px,4.6vw,42px);font-weight:800;letter-spacing:.01em;color:#16202b}
+.sub{color:var(--dim);max-width:66ch;margin:.2em 0 0}
+.drag{display:inline-block;margin-left:10px;font:700 10px/1 ui-monospace,monospace;letter-spacing:.14em;color:var(--neuro2);border:1px solid var(--neuro);border-radius:999px;padding:4px 9px;vertical-align:middle;white-space:nowrap;box-shadow:0 0 12px rgba(18,179,200,.25)}
+.tier{display:inline-flex;gap:6px;align-items:center;margin-top:14px;font:600 11px/1 ui-monospace,monospace;letter-spacing:.14em}
+.chip{padding:5px 10px;border-radius:999px;border:1px solid var(--edge);background:var(--panel)}
+.chip.lit{color:var(--grn);border-color:rgba(31,174,116,.4)}
+.chip.amb{color:var(--sense2);border-color:rgba(226,86,64,.45)}
+.card{margin-top:20px;background:var(--panel);border:1px solid var(--edge);border-radius:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 14px 46px rgba(20,60,90,.14),0 0 0 1px rgba(255,255,255,.4) inset}
+.stagewrap{padding:14px;position:relative}
+#stage{width:100%;height:auto;display:block;border-radius:10px;background:radial-gradient(120% 100% at 50% 0%,#0e1c2c 0%,#081221 60%,#050c17 100%);border:1px solid rgba(18,179,200,.35);box-shadow:0 0 34px rgba(18,179,200,.16) inset,0 0 18px rgba(123,108,240,.12);touch-action:none;cursor:crosshair}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:0 14px 14px}
+.btn{cursor:pointer;border:1px solid var(--edge);background:rgba(255,255,255,.7);color:var(--ink);padding:9px 14px;border-radius:10px;font:600 12px/1 ui-monospace,'Cascadia Code',monospace;letter-spacing:.06em;text-transform:uppercase;transition:.15s}
+.btn:hover{border-color:var(--neuro);box-shadow:0 0 15px rgba(18,179,200,.3)}
+.btn.on{background:linear-gradient(180deg,#18c6dc,#0c8595);border-color:#0c8595;color:#fff;box-shadow:0 0 16px rgba(18,179,200,.4)}
+.rng{display:flex;align-items:center;gap:8px;font:600 11px ui-monospace,monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);background:rgba(255,255,255,.7);border:1px solid var(--edge);border-radius:10px;padding:6px 12px}
+.rng b{color:var(--neuro2);min-width:2.6em;text-align:right;display:inline-block}
+input[type=range]{accent-color:var(--neuro);width:108px}
+.readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--edge2);border-top:1px solid var(--edge);border-radius:0 0 16px 16px;overflow:hidden}
+.ro{background:var(--panel);padding:11px 14px}
+.ro .k{font:600 10px ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.ro .v{font:700 19px ui-monospace,monospace;margin-top:3px;color:var(--ink)}
+.ro .v.g{color:var(--grn)} .ro .v.r{color:var(--sense2)} .ro .v.a{color:var(--synapse2)} .ro .v.c{color:var(--neuro2)}
+.honesty{margin-top:22px;display:grid;gap:10px}
+.hz{background:var(--panel);border:1px solid var(--edge);border-left-width:3px;border-radius:10px;padding:12px 15px}
+.hz.lit{border-left-color:var(--grn)} .hz.amb{border-left-color:var(--sense)}
+.hz h4{margin:0 0 4px;font:700 11px ui-monospace,monospace;letter-spacing:.16em}
+.hz.lit h4{color:var(--grn)} .hz.amb h4{color:var(--sense2)}
+.hz p{margin:0;color:#33404e;font-size:13.5px}
+.law{margin-top:16px;text-align:center;color:var(--dim);font:italic 500 13px/1.5 Georgia,serif}
+.sig{margin-top:26px;text-align:center;color:var(--dim);font:600 11px ui-monospace,monospace;letter-spacing:.14em}
+.sig b{color:var(--ink)}
+#fail{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:99;background:#0a1420;border:1px solid var(--sense);color:#ffd7d0;padding:12px;border-radius:8px;font:12px ui-monospace,monospace;white-space:pre-wrap}
+</style></head><body>
+<canvas id="bg"></canvas>
+<div class="desk">
+  <div class="dtag">◈ <b>AÍSTHĒSIS</b> · the perceiving brain · sense · relay · encode · bind</div>
+  <h1>THE ADAPTATION <span class="drag">◈ DRAG · SLIDE · TAP</span></h1>
+  <p class="sub">Stare at a waterfall, then look at the rocks — they drift upward. A neuron fed a steady input stops reporting it, and when the input vanishes it overshoots the other way: the <b>aftereffect</b>. <b>Press and hold</b> the screen to feed the neuron, <b>slide</b> how fast it tires — and watch the trace tire and rebound.</p>
+  <div class="tier"><span class="chip lit">◆ LIT</span><span class="chip amb">▲ AMBER</span></div>
+  <div class="card">
+    <div class="stagewrap"><canvas id="stage" width="900" height="440"></canvas></div>
+    <div class="controls"><button class="btn" id="flash">⚡ flash 1s</button><button class="btn" id="reset">↺ clear trace</button><label class="rng">adapt speed <input type="range" id="tau" min="5" max="60" value="22" step="1"><b id="tauv">2.2</b>s</label><label class="rng">gain <input type="range" id="gain" min="20" max="100" value="60" step="1"><b id="gainv">60</b></label></div>
+    <div class="readout"><div class="ro"><div class="k">stimulus</div><div class="v" id="roStim">—</div></div><div class="ro"><div class="k">firing rate</div><div class="v" id="roFire">—</div></div><div class="ro"><div class="k">adaptation state</div><div class="v" id="roAdapt">—</div></div><div class="ro"><div class="k">aftereffect</div><div class="v" id="roAfter">—</div></div><div class="ro"><div class="k">the neuron</div><div class="v" id="roState">—</div></div></div>
+  </div>
+  <div class="honesty">
+    <div class="hz lit"><h4>◆ LIT — verified / checkable</h4><p>A leaky-integrator <b>adaptation</b> model: an internal state a chases the stimulus s with time constant τ (slide it), and the firing rate is the un-adapted part, r = gain·(s − a). Hold the screen to feed a steady stimulus and the trace spikes at onset, then <b>decays</b> as a catches up (the neuron 'stops seeing' the constant input); release and s drops to 0 while a is still high, so r goes <b>negative</b> — the aftereffect / negative afterimage. The dynamics are integrated live and the trace is real. Standard sensory-adaptation / firing-rate modelling.</p></div>
+    <div class="hz amb"><h4>▲ AMBER — the figure</h4><p>A single first-order leaky integrator stands in for real adaptation, which has multiple time-scales, spike-rate saturation, and channel-specific mechanisms; firing rate here is a continuous number, not real spikes. The onset transient, the decay, and the negative aftereffect are exactly what this real model produces — the figure is that one time-constant captures a whole sense.</p></div>
+  </div>
+  <div class="law">AÍSTHĒSIS: the world does not arrive — it is gated, sharpened, and bound into the thing you call seeing.</div>
+  <div class="sig">David Lee Wise / ROOT0 / TriPod LLC &nbsp;·&nbsp; with <b>AVAN</b></div>
+</div>
+<div id="fail"></div>
+<script>
+window.onerror=function(m,s,l,c,e){var f=document.getElementById('fail');if(f){f.style.display='block';f.textContent='⚠ '+m+' @'+l+':'+c;}};
+</script>
+<script>
+(function(){
+  var cv=document.getElementById('bg'); if(!cv) return;
+  function fallback(){var c=cv.getContext&&cv.getContext('2d');if(!c)return;
+    function f(){var w=cv.width=innerWidth,h=cv.height=innerHeight;var g=c.createRadialGradient(w*.5,h*.4,0,w*.5,h*.4,Math.max(w,h)*.9);g.addColorStop(0,'#eef3f8');g.addColorStop(1,'#dde5ee');c.fillStyle=g;c.fillRect(0,0,w,h);}f();addEventListener('resize',f);}
+  var gl;try{gl=cv.getContext('webgl',{antialias:true,alpha:false})||cv.getContext('experimental-webgl');}catch(e){}
+  if(!gl){fallback();return;}
+  // build a neuron cloud + synapse edges (deterministic-ish pseudo-random)
+  var seed=1337; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
+  var N=46, nodes=[];
+  for(var i=0;i<N;i++){var u=rnd()*2-1,th=rnd()*6.283,r=Math.pow(rnd(),0.5);var s=Math.sqrt(1-u*u);nodes.push([Math.cos(th)*s*r,u*r,Math.sin(th)*s*r]);}
+  var edges=[], pts=[];
+  for(var i=0;i<N;i++){pts.push(nodes[i][0],nodes[i][1],nodes[i][2]);
+    for(var j=i+1;j<N;j++){var dx=nodes[i][0]-nodes[j][0],dy=nodes[i][1]-nodes[j][1],dz=nodes[i][2]-nodes[j][2];
+      if(dx*dx+dy*dy+dz*dz<0.34)edges.push(nodes[i][0],nodes[i][1],nodes[i][2],nodes[j][0],nodes[j][1],nodes[j][2]);}}
+  function buf(a){var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(a),gl.STATIC_DRAW);return b;}
+  var bE=buf(edges), bP=buf(pts);
+  var VS='attribute vec3 p;uniform float asp,ang,sc;void main(){float c=cos(ang),s=sin(ang);vec3 q=vec3(p.x*c+p.z*s,p.y,-p.x*s+p.z*c);float persp=1.0/(2.3-q.z*0.55);vec2 o=vec2(q.x,q.y)*sc*persp;o.x/=asp;gl_Position=vec4(o,0.0,1.0);gl_PointSize=4.0;}';
+  var FS='precision mediump float;uniform vec3 col;uniform float a;void main(){gl_FragColor=vec4(col,a);}';
+  function sh(t,s){var o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw gl.getShaderInfoLog(o);return o;}
+  var prog;try{prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,VS));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,FS));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw'link';}catch(e){fallback();return;}
+  var uAsp=gl.getUniformLocation(prog,'asp'),uAng=gl.getUniformLocation(prog,'ang'),uSc=gl.getUniformLocation(prog,'sc'),uCol=gl.getUniformLocation(prog,'col'),uA=gl.getUniformLocation(prog,'a'),aLoc=gl.getAttribLocation(prog,'p');
+  gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
+  var ASP=1,t0=null;
+  function frame(tm){requestAnimationFrame(frame);if(t0===null)t0=tm;var tt=(tm-t0)*0.001;
+    var w=cv.width=innerWidth,h=cv.height=innerHeight;gl.viewport(0,0,w,h);ASP=w/h;
+    gl.clearColor(0.933,0.949,0.965,1.0);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(prog);
+    gl.uniform1f(uAsp,ASP);gl.uniform1f(uAng,tt*0.16);gl.uniform1f(uSc,0.72);
+    gl.bindBuffer(gl.ARRAY_BUFFER,bE);gl.enableVertexAttribArray(aLoc);gl.vertexAttribPointer(aLoc,3,gl.FLOAT,false,0,0);
+    gl.uniform3f(uCol,0.13,0.72,0.82);gl.uniform1f(uA,0.10);gl.lineWidth(1);gl.drawArrays(gl.LINES,0,edges.length/3);
+    gl.bindBuffer(gl.ARRAY_BUFFER,bP);gl.vertexAttribPointer(aLoc,3,gl.FLOAT,false,0,0);
+    gl.uniform3f(uCol,0.55,0.49,0.94);gl.uniform1f(uA,0.5);gl.drawArrays(gl.POINTS,0,pts.length/3);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+<script>
+(function(){
+  var cv=document.getElementById('stage'); var ctx=cv&&cv.getContext('2d'); if(!ctx)return;
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  function size(){var w=cv.clientWidth||900;cv.width=Math.round(w*DPR);cv.height=Math.round((w*440/900)*DPR);}
+  size(); addEventListener('resize',size);
+  var env={cv:cv,ctx:ctx,DPR:DPR,W:function(){return cv.width/DPR;},H:function(){return cv.height/DPR;},
+    set:function(id,val,cls){var e=document.getElementById(id);if(e){e.textContent=val;if(cls!=null)e.className='v '+cls;}},
+    evt:function(e){var r=cv.getBoundingClientRect();var sx=(cv.width/DPR)/r.width, sy=(cv.height/DPR)/r.height;
+      var cx=(e.touches?e.touches[0].clientX:e.clientX), cy=(e.touches?e.touches[0].clientY:e.clientY);
+      return {x:(cx-r.left)*sx, y:(cy-r.top)*sy};}};
+  var t0=null, inited=false;
+  function loop(t){requestAnimationFrame(loop);if(t0===null)t0=t;env.t=(t-t0)*0.001;
+    if(!inited&&window.__INST__){inited=true;if(window.__INST__.init)window.__INST__.init(env);}
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    if(window.__INST__&&window.__INST__.draw)window.__INST__.draw(env);}
+  requestAnimationFrame(loop);
+})();
+</script>
+<script>
+  function onDrag(env,pick,move){var handle=null;
+    function down(e){e.preventDefault();var p=env.evt(e);handle=pick(p);if(handle!=null)move(handle,p);}
+    function mv(e){if(handle==null)return;e.preventDefault();move(handle,env.evt(e));}
+    function up(){handle=null;}
+    env.cv.addEventListener('pointerdown',down);env.cv.addEventListener('pointermove',mv);
+    window.addEventListener('pointerup',up);env.cv.addEventListener('touchstart',down,{passive:false});env.cv.addEventListener('touchmove',mv,{passive:false});window.addEventListener('touchend',up);
+  }
+  function hud(c,w,h){ // faint grid + corner brackets on the dark screen
+    c.strokeStyle='rgba(18,179,200,0.08)';c.lineWidth=1;
+    for(var x=0;x<=w;x+=40){c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}
+    for(var y=0;y<=h;y+=40){c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}
+    c.strokeStyle='rgba(18,179,200,0.55)';c.lineWidth=1.5;var L=16;
+    var pts=[[8,8,1,1],[w-8,8,-1,1],[8,h-8,1,-1],[w-8,h-8,-1,-1]];
+    for(var i=0;i<4;i++){var q=pts[i];c.beginPath();c.moveTo(q[0],q[1]+q[3]*L);c.lineTo(q[0],q[1]);c.lineTo(q[0]+q[2]*L,q[1]);c.stroke();}
+  }
+
+(function(){
+  var tau=2.2, gain=0.6, ENV, a=0, s=0, held=0, flashT=0, tp=0, fc=0;
+  var N=220, buf=new Array(N), sbuf=new Array(N), head=0;
+  for(var i=0;i<N;i++){buf[i]=0;sbuf[i]=0;}
+  function refresh(){if(!ENV)return;var r=gain*(s-a);
+    ENV.set('roStim',(s*100).toFixed(0)+'%',s>0?'c':'');
+    ENV.set('roFire',(r>=0?'+':'')+(r*100).toFixed(0),r>0.05?'g':(r<-0.05?'r':'a'));
+    ENV.set('roAdapt',(a*100).toFixed(0)+'%','a');
+    ENV.set('roAfter',r<-0.03?'negative — the afterimage':(Math.abs(r)<0.03&&a>0.1?'fading':'—'),r<-0.03?'r':'a');
+    ENV.set('roState',s>0?(r>0.3?'firing — fresh input':'adapting — going quiet'):(r<-0.03?'rebounding':'at rest'),s>0?(r>0.3?'g':'a'):(r<-0.03?'r':'g'));}
+  window.__INST__={init:function(env){ENV=env;
+    document.getElementById('flash').onclick=function(){flashT=env.t+1.0;};
+    document.getElementById('reset').onclick=function(){a=0;for(var i=0;i<N;i++){buf[i]=0;sbuf[i]=0;}refresh();};
+    document.getElementById('tau').oninput=function(){tau=(+this.value)/10;document.getElementById('tauv').textContent=tau.toFixed(1);};
+    document.getElementById('gain').oninput=function(){gain=(+this.value)/100;document.getElementById('gainv').textContent=this.value;};
+    onDrag(env,function(p){held=Math.max(0.15,Math.min(1,(env.H()-30-p.y)/(env.H()-60)));return 0;},
+      function(i,p){held=Math.max(0.15,Math.min(1,(env.H()-30-p.y)/(env.H()-60)));});
+    env.cv.addEventListener('pointerup',function(){held=0;});env.cv.addEventListener('pointerleave',function(){held=0;});
+    env.cv.addEventListener('touchend',function(){held=0;});
+    refresh();},
+   draw:function(env){var c=env.ctx,w=env.W(),h=env.H();c.clearRect(0,0,w,h);hud(c,w,h);
+     var dt=Math.min(0.05,Math.max(0.001,env.t-tp));tp=env.t;
+     var flash=env.t<flashT?0.8:0; s=Math.max(held,flash);
+     a += (s-a)*dt/tau;
+     var r=gain*(s-a);
+     buf[head]=r;sbuf[head]=s;head=(head+1)%N;
+     var x0=30,pw=w-50,y0=h*0.5,amp=h*0.34;
+     // zero line
+     c.strokeStyle='rgba(140,160,180,.3)';c.lineWidth=1;c.beginPath();c.moveTo(x0,y0);c.lineTo(x0+pw,y0);c.stroke();
+     c.fillStyle='#8aa0b4';c.font='600 9px ui-monospace,monospace';c.textAlign='right';c.fillText('0',x0-4,y0+3);
+     // stimulus trace (violet, faint)
+     c.strokeStyle='rgba(123,108,240,.55)';c.lineWidth=1.5;c.beginPath();
+     for(var i=0;i<N;i++){var idx=(head+i)%N;var x=x0+i/(N-1)*pw,y=y0-sbuf[idx]*amp;i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();
+     // firing trace (cyan, glow)
+     c.strokeStyle='#12d0e6';c.lineWidth=2.4;c.beginPath();
+     for(var i=0;i<N;i++){var idx=(head+i)%N;var x=x0+i/(N-1)*pw,y=y0-buf[idx]*amp;i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();
+     // head marker
+     var hy=y0-r*amp;c.fillStyle=r<0?'#ff7a6a':'#12d0e6';c.beginPath();c.arc(x0+pw,hy,4,0,7);c.fill();
+     c.fillStyle='#7b6cf0';c.textAlign='left';c.fillText('■ stimulus',x0+4,20);
+     c.fillStyle='#12d0e6';c.fillText('■ firing rate  r = gain·(s − a)',x0+94,20);
+     c.fillStyle='#8aa0b4';c.textAlign='center';c.fillText('press & hold ↕ to feed the neuron — release to see the aftereffect',x0+pw/2,h-12);
+     if((fc++%4)===0)refresh();
+   }};
+})();
+</script>
+</body></html>
